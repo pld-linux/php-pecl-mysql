@@ -14,7 +14,7 @@ Release:	1
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://git.php.net/?p=pecl/database/mysql.git;a=snapshot;h=617e5103743d07435fdfe5cbbe6ad310e610c4b9;sf=tgz;/php-pecl-%{modname}-%{version}.tar.gz
-# Source0-md5:	f010c5f2d56727196ec93991dd42261e
+# Source0-md5:	d087d95574ee62ac2ef176e298f1c811
 URL:		http://php.net/manual/en/book.mysql.php
 %{?with_tests:BuildRequires:    %{php_name}-cli}
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
