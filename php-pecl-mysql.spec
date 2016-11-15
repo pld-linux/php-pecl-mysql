@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	Moduł bazy danych MySQL dla PHP
 Summary(pt_BR.UTF-8):	Um módulo para aplicações PHP que usam bancos de dados MySQL
 Name:		%{php_name}-pecl-%{modname}
 Version:	1.0.0
-Release:	1
+Release:	2
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	http://git.php.net/?p=pecl/database/mysql.git;a=snapshot;h=294ce3b491ffb5ab2556b9f64ef6fb608d32e5c7;sf=tgz;/php-pecl-%{modname}-%{version}.tar.gz
@@ -24,6 +24,7 @@ BuildRequires:	%{php_name}-cli
 BuildRequires:	%{php_name}-pcre
 %{?with_mysqlnd:BuildRequires:	%{php_name}-mysqlnd}
 %endif
+%{?with_mysqlnd:Requires:	%{php_name}-mysqlnd}
 %{?requires_php_extension}
 Provides:	php(mysql) = %{version}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
