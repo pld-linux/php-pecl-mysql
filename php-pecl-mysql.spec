@@ -3,19 +3,21 @@
 %bcond_without	tests		# build without tests
 %bcond_without	mysqlnd		# without mysqlnd support in mysql related extensions
 
+%define		rel		1
+%define		commit	386776d
 %define		php_name	php%{?php_suffix}
 %define		modname	mysql
-Summary:	MySQL database module for PHP
+Summary:	Legacy MySQL extension
 Summary(pl.UTF-8):	Moduł bazy danych MySQL dla PHP
 Summary(pt_BR.UTF-8):	Um módulo para aplicações PHP que usam bancos de dados MySQL
 Name:		%{php_name}-pecl-%{modname}
 Version:	1.0.0
-Release:	3
+Release:	3.%{rel}.%{commit}
 License:	PHP 3.01
 Group:		Development/Languages/PHP
-Source0:	http://git.php.net/?p=pecl/database/mysql.git;a=snapshot;h=230a8287c04c69dfc49f6a68a5debb4e4198e98f;sf=tgz;/php-pecl-%{modname}-%{version}.tar.gz
-# Source0-md5:	dfa29660187e8f132c7f80f64982111d
-URL:		http://php.net/manual/en/book.mysql.php
+Source0:	https://git.php.net/?p=pecl/database/mysql.git;a=snapshot;h=%{commit};sf=tgz;/php-pecl-%{modname}-%{version}-%{commit}.tar.gz
+# Source0-md5:	2f04df87f0103f3bd12c73cb12ce72cf
+URL:		https://secure.php.net/manual/en/book.mysql.php
 %{?with_tests:BuildRequires:    %{php_name}-cli}
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
 BuildRequires:	rpmbuild(macros) >= 1.666
