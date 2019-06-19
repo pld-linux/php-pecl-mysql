@@ -17,6 +17,7 @@ License:	PHP 3.01
 Group:		Development/Languages/PHP
 Source0:	https://git.php.net/?p=pecl/database/mysql.git;a=snapshot;h=%{commit};sf=tgz;/php-pecl-%{modname}-%{version}-%{commit}.tar.gz
 # Source0-md5:	cd885ae5b99f265eb08d6a087ed2b549
+Patch0:		revert-deprecate-ext-mysql.patch
 URL:		https://secure.php.net/manual/en/book.mysql.php
 %{?with_tests:BuildRequires:    %{php_name}-cli}
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
@@ -46,6 +47,7 @@ historical reasons only.
 %prep
 %setup -qc
 mv %{modname}-*/* .
+%patch0 -p1
 
 %build
 phpize
