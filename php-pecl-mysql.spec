@@ -3,7 +3,7 @@
 %bcond_without	tests		# build without tests
 %bcond_without	mysqlnd		# without mysqlnd support in mysql related extensions
 
-%define		rel		1
+%define		rel		2
 %define		commit	d7643af
 %define		php_name	php%{?php_suffix}
 %define		modname	mysql
