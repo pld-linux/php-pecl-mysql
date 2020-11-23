@@ -3,8 +3,8 @@
 %bcond_without	tests		# build without tests
 %bcond_without	mysqlnd		# without mysqlnd support in mysql related extensions
 
-%define		rel		2
-%define		commit	d7643af
+%define		rel		5
+%define		commit	580d46c
 %define		php_name	php%{?php_suffix}
 %define		modname	mysql
 Summary:	Legacy MySQL extension
@@ -12,11 +12,13 @@ Summary(pl.UTF-8):	Moduł bazy danych MySQL dla PHP
 Summary(pt_BR.UTF-8):	Um módulo para aplicações PHP que usam bancos de dados MySQL
 Name:		%{php_name}-pecl-%{modname}
 Version:	1.0.0
-Release:	4.%{rel}.%{commit}
+Release:	%{rel}.%{commit}
 License:	PHP 3.01
 Group:		Development/Languages/PHP
-Source0:	https://git.php.net/?p=pecl/database/mysql.git;a=snapshot;h=%{commit};sf=tgz;/php-pecl-%{modname}-%{version}-%{commit}.tar.gz
-# Source0-md5:	cd885ae5b99f265eb08d6a087ed2b549
+# https://github.com/php/pecl-database-mysql
+# https://git.php.net/?p=pecl/database/mysql.git;a=summary
+Source0:	https://github.com/php/pecl-database-mysql/archive/%{commit}/php-pecl-%{modname}-%{version}-%{commit}.tar.gz
+# Source0-md5:	3ecc43430bf97c6e8c125adb5853a5cf
 Patch0:		revert-deprecate-ext-mysql.patch
 URL:		https://secure.php.net/manual/en/book.mysql.php
 %{?with_tests:BuildRequires:    %{php_name}-cli}
@@ -46,7 +48,7 @@ historical reasons only.
 
 %prep
 %setup -qc
-mv %{modname}-*/* .
+mv pecl-database-%{modname}-*/* .
 %patch0 -p1
 
 %build
