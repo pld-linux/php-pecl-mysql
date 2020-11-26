@@ -86,7 +86,6 @@ phpize
 
 %{__make}
 
-%if %{with tests}
 # simple module load test
 %{__php} -n -q \
 	-d extension_dir=modules \
@@ -97,6 +96,7 @@ phpize
 	-m > modules.log
 grep %{modname} modules.log
 
+%if %{with tests}
 ./run-tests.sh --show-diff
 %endif
 
