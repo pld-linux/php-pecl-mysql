@@ -51,6 +51,32 @@ historical reasons only.
 mv pecl-database-%{modname}-*/* .
 %patch0 -p1
 
+cat <<'EOF' > run-tests.sh
+#!/bin/sh
+export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
+exec %{__make} test \
+	PHP_EXECUTABLE=%{__php} \
+	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="%{?with_mysqlnd:mysqlnd}" \
+	RUN_TESTS_SETTINGS="-q $*"
+EOF
+chmod +x run-tests.sh
+
+xfail() {
+	local t=$1
+	test -f $t
+	cat >> $t <<-EOF
+
+	--XFAIL--
+	Skip
+	EOF
+}
+
+while read line; do
+	t=${line##*\[}; t=${t%\]}
+	xfail $t
+done << 'EOF'
+EOF
+
 %build
 phpize
 %configure \
@@ -71,10 +97,7 @@ phpize
 	-m > modules.log
 grep %{modname} modules.log
 
-export NO_INTERACTION=1 REPORT_EXIT_STATUS=1 MALLOC_CHECK_=2
-%{__make} test \
-	PHP_EXECUTABLE=%{__php} \
-	PHP_TEST_SHARED_SYSTEM_EXTENSIONS="%{?with_mysqlnd:mysqlnd}" \
+./run-tests.sh --show-diff
 %endif
 
 %install
