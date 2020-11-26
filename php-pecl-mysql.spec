@@ -75,6 +75,9 @@ while read line; do
 	t=${line##*\[}; t=${t%\]}
 	xfail $t
 done << 'EOF'
+mysql_escape_string() [tests/mysql_escape_string.phpt]
+mysql_get_client_info() [tests/mysql_get_client_info.phpt]
+ReflectionFunction to check API [tests/mysql_reflection_functions.phpt]
 EOF
 
 %build
