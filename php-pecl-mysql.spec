@@ -3,8 +3,8 @@
 %bcond_without	tests		# build without tests
 %bcond_without	mysqlnd		# without mysqlnd support in mysql related extensions
 
-%define		rel		6
-%define		commit	580d46c
+%define		rel		7
+%define		commit	ca514c4
 %define		php_name	php%{?php_suffix}
 %define		modname	mysql
 Summary:	Legacy MySQL extension
@@ -16,9 +16,8 @@ Release:	%{rel}.%{commit}
 License:	PHP 3.01
 Group:		Development/Languages/PHP
 # https://github.com/php/pecl-database-mysql
-# https://git.php.net/?p=pecl/database/mysql.git;a=summary
 Source0:	https://github.com/php/pecl-database-mysql/archive/%{commit}/php-pecl-%{modname}-%{version}-%{commit}.tar.gz
-# Source0-md5:	3ecc43430bf97c6e8c125adb5853a5cf
+# Source0-md5:	352114d54e0889d999577f9db8c06a74
 Patch0:		revert-deprecate-ext-mysql.patch
 URL:		https://secure.php.net/manual/en/book.mysql.php
 %{?with_tests:BuildRequires:    %{php_name}-cli}
@@ -47,7 +46,7 @@ PDO_MySQL, as this extension is not maintained and is available for
 historical reasons only.
 
 %prep
-%setup -qc
+%setup -qc -n %{name}-%{version}-%{commit}
 mv pecl-database-%{modname}-*/* .
 %patch0 -p1
 

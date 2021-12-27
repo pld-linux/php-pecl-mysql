@@ -40,18 +40,16 @@ diff --git ./php_mysql.c ./php_mysql.c
  resource(%d) of type (mysql link)
  bool(true)
  bool(true)
-diff --git ./tests/003.phpt ./tests/003.phpt
-index 365abc20e9..2d0b68b9f8 100644
---- ./tests/003.phpt
-+++ ./tests/003.phpt
-@@ -57,7 +57,6 @@ print "done!";
+--- php81-pecl-mysql-1.0.0/tests/003.phpt~	2021-04-12 12:21:08.000000000 +0300
++++ php81-pecl-mysql-1.0.0/tests/003.phpt	2021-12-27 21:16:43.593703493 +0200
+@@ -57,7 +57,6 @@
  require_once("clean_table.inc");
  ?>
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  ==stdClass==
  object(stdClass)#%d (1) {
-   [%u|b%"a"]=>
+   ["a"]=>
 diff --git ./tests/bug47438.phpt ./tests/bug47438.phpt
 index fa7b3e6a2b..11f0ff33b8 100644
 --- ./tests/bug47438.phpt
@@ -350,18 +348,16 @@ index 8ccefd0242..362cf99ddc 100644
  [010]
  array(5) {
    ["id"]=>
-diff --git ./tests/mysql_fetch_field.phpt ./tests/mysql_fetch_field.phpt
-index 85c1fd6f7e..ef03279087 100644
---- ./tests/mysql_fetch_field.phpt
-+++ ./tests/mysql_fetch_field.phpt
-@@ -156,7 +156,6 @@ require_once('skipifconnectfailure.inc');
+--- php81-pecl-mysql-1.0.0/tests/mysql_fetch_field.phpt~	2021-04-12 12:21:08.000000000 +0300
++++ php81-pecl-mysql-1.0.0/tests/mysql_fetch_field.phpt	2021-12-27 21:17:52.247252895 +0200
+@@ -156,7 +156,6 @@
  require_once("clean_table.inc");
  ?>
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  object(stdClass)#%d (13) {
-   [%u|b%"name"]=>
-   %unicode|string%(2) "ID"
+   ["name"]=>
+   string(2) "ID"
 diff --git ./tests/mysql_fetch_lengths.phpt ./tests/mysql_fetch_lengths.phpt
 index f0fbbb7bb8..4793e2649b 100644
 --- ./tests/mysql_fetch_lengths.phpt
@@ -374,18 +370,16 @@ index f0fbbb7bb8..4793e2649b 100644
  array(2) {
    [0]=>
    int(1)
-diff --git ./tests/mysql_fetch_object.phpt ./tests/mysql_fetch_object.phpt
-index 666d0ee821..c11631e04c 100644
---- ./tests/mysql_fetch_object.phpt
-+++ ./tests/mysql_fetch_object.phpt
-@@ -82,7 +82,6 @@ print "done!";
+--- php81-pecl-mysql-1.0.0/tests/mysql_fetch_object.phpt~	2021-04-12 12:21:08.000000000 +0300
++++ php81-pecl-mysql-1.0.0/tests/mysql_fetch_object.phpt	2021-12-27 21:18:50.943620840 +0200
+@@ -82,7 +82,6 @@
  require_once("clean_table.inc");
  ?>
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  object(stdClass)#%d (2) {
-   [%u|b%"ID"]=>
-   %unicode|string%(1) "1"
+   ["ID"]=>
+   string(1) "1"
 diff --git ./tests/mysql_fetch_row.phpt ./tests/mysql_fetch_row.phpt
 index 0ed932e2c0..8d6b9585be 100644
 --- ./tests/mysql_fetch_row.phpt
@@ -398,13 +392,6 @@ index 0ed932e2c0..8d6b9585be 100644
  [004]
  array(2) {
    [0]=>
-@@ -54,4 +53,4 @@ bool(false)
- 
- Warning: mysql_fetch_row(): %d is not a valid MySQL result resource in %s on line %d
- bool(false)
--done!
-+done!
-\ No newline at end of file
 diff --git ./tests/mysql_field_flags.phpt ./tests/mysql_field_flags.phpt
 index 7f1b366d5c..e07e041d2a 100644
 --- ./tests/mysql_field_flags.phpt
@@ -483,18 +470,16 @@ index c767cab6f1..c737b4e3f2 100644
  Warning: mysql_field_type() expects exactly 2 parameters, 1 given in %s on line %d
  
  Warning: mysql_field_type(): Field -1 is invalid for MySQL result index %d in %s on line %d
-diff --git ./tests/mysql_free_result.phpt ./tests/mysql_free_result.phpt
-index 90498bd59a..fe132d8c2d 100644
---- ./tests/mysql_free_result.phpt
-+++ ./tests/mysql_free_result.phpt
-@@ -44,7 +44,6 @@ print "done!";
+--- php81-pecl-mysql-1.0.0/tests/mysql_free_result.phpt~	2021-04-12 12:21:08.000000000 +0300
++++ php81-pecl-mysql-1.0.0/tests/mysql_free_result.phpt	2021-12-27 21:20:32.715550830 +0200
+@@ -44,7 +44,6 @@
  require_once("clean_table.inc");
  ?>
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  bool(true)
  
- Warning: mysql_free_result(): %d is not a valid MySQL result resource in %s on line %d
+ Warning: mysql_free_result(): supplied resource is not a valid MySQL result resource in %s on line %d
 diff --git ./tests/mysql_get_host_info.phpt ./tests/mysql_get_host_info.phpt
 index 4b21ddbb41..443910c319 100644
 --- ./tests/mysql_get_host_info.phpt
@@ -794,18 +779,15 @@ index 0308df3396..edf18c4391 100644
  bool(true)
  bool(true)
  bool(true)
-diff --git ./tests/mysql_query.phpt ./tests/mysql_query.phpt
-index 01b14ee284..a5978a6c11 100644
---- ./tests/mysql_query.phpt
-+++ ./tests/mysql_query.phpt
-@@ -113,7 +113,6 @@ if (!mysql_query('DROP TABLE IF EXISTS test', $link)) {
++++ php81-pecl-mysql-1.0.0/tests/mysql_query.phpt	2021-12-27 21:21:10.264160332 +0200
+@@ -117,7 +117,6 @@
  mysql_close($link);
  ?>
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  array(1) {
-   [%u|b%"valid"]=>
-   %unicode|string%(30) "this is sql but with semicolon"
+   ["valid"]=>
+   string(30) "this is sql but with semicolon"
 diff --git ./tests/mysql_query_load_data_openbasedir.phpt ./tests/mysql_query_load_data_openbasedir.phpt
 index c2cb41e026..aa15f5ca12 100644
 --- ./tests/mysql_query_load_data_openbasedir.phpt
@@ -896,17 +878,15 @@ index 4bbe54d443..2415e4fda0 100644
 -
  Warning: mysql_thread_id(): supplied resource is not a valid MySQL-Link resource in %s on line %d
  done!
-diff --git ./tests/mysql_trace_mode.phpt ./tests/mysql_trace_mode.phpt
-index 7655975d70..2b6c61d27b 100644
---- ./tests/mysql_trace_mode.phpt
-+++ ./tests/mysql_trace_mode.phpt
-@@ -29,7 +29,6 @@ print "done!\n";
+--- php81-pecl-mysql-1.0.0/tests/mysql_trace_mode.phpt~	2021-04-12 12:21:08.000000000 +0300
++++ php81-pecl-mysql-1.0.0/tests/mysql_trace_mode.phpt	2021-12-27 21:24:54.899116695 +0200
+@@ -29,7 +29,6 @@
  require_once("clean_table.inc");
  ?>
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  I don\'t mind character sets, do I?\n
- Warning: mysql_query(): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'BOGUS_SQL' at line 1 in %s on line %d
+ Warning: mysql_query(): You have an error in your SQL syntax; check the manual that corresponds to your %s server version for the right syntax to use near 'BOGUS_SQL' at line 1 in %s on line %d
  done!
 diff --git ./tests/mysql_unbuffered_query.phpt ./tests/mysql_unbuffered_query.phpt
 index 8754b58b59..ad9b4fbc52 100644
@@ -918,8 +898,5 @@ index 8754b58b59..ad9b4fbc52 100644
  --EXPECTF--
 -Deprecated: mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead in %s on line %d
  array(1) {
-   [%u|b%"valid"]=>
-   %unicode|string%(30) "this is sql but with semicolon"
--- 
-2.21.0
-
+   ["valid"]=>
+   string(30) "this is sql but with semicolon"
