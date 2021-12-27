@@ -22,10 +22,10 @@ Patch0:		revert-deprecate-ext-mysql.patch
 URL:		https://secure.php.net/manual/en/book.mysql.php
 %{?with_tests:BuildRequires:    %{php_name}-cli}
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
+%{?with_mysqlnd:BuildRequires:	%{php_name}-mysqlnd}
 BuildRequires:	rpmbuild(macros) >= 1.666
 %if %{with tests}
 BuildRequires:	%{php_name}-cli
-%{?with_mysqlnd:BuildRequires:	%{php_name}-mysqlnd}
 BuildRequires:	%{php_name}-pcre
 %endif
 %{?with_mysqlnd:Requires:	%{php_name}-mysqlnd}
@@ -89,14 +89,14 @@ phpize
 %{__make}
 
 # simple module load test
-%{__php} -n -q \
+%{__php} -n -q -d display_errors=off \
 	-d extension_dir=modules \
 %if %{with mysqlnd}
 	-d extension=%{php_extensiondir}/mysqlnd.so \
 %endif
 	-d extension=%{modname}.so \
 	-m > modules.log
-grep %{modname} modules.log
+grep "^%{modname}$" modules.log
 
 %if %{with tests}
 ./run-tests.sh --show-diff
