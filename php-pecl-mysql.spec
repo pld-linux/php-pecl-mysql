@@ -48,7 +48,7 @@ historical reasons only.
 %prep
 %setup -qc -n %{name}-%{version}-%{commit}
 mv pecl-database-%{modname}-*/* .
-%patch0 -p1
+%patch -P0 -p1
 
 cat <<'EOF' > run-tests.sh
 #!/bin/sh
