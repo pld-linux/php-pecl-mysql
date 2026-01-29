@@ -1,12 +1,14 @@
---- php85-pecl-mysql-1.0.0-ca514c4/php_mysql.c.org	2026-01-29 21:02:32.300054906 +0100
-+++ php85-pecl-mysql-1.0.0-ca514c4/php_mysql.c	2026-01-29 21:02:58.480196364 +0100
-@@ -80,7 +80,11 @@ static int le_result, le_link, le_plink;
+--- php73-pecl-mysql-1.0.0-ca514c4/php_mysql.c.org	2026-01-29 21:34:03.582390606 +0100
++++ php73-pecl-mysql-1.0.0-ca514c4/php_mysql.c	2026-01-29 21:34:16.265390923 +0100
+@@ -80,7 +80,13 @@ static int le_result, le_link, le_plink;
  #define SAFE_STRING(s) ((s)?(s):"")
  
  #if MYSQL_VERSION_ID > 32199 || defined(MYSQL_USE_MYSQLND)
-+#if defined(__x86_64__) && defined(__ILP32__)
++#if ((defined(__x86_64__) && defined(__ILP32__)) || (PHP_VERSION_ID <= 70000))
++# define ZEND_M_FMT "%d"
 +# define mysql_row_length_type size_t
 +# else
++# define ZEND_M_FMT ZEND_LONG_FMT
  # define mysql_row_length_type zend_ulong
 +#endif
  # define HAVE_MYSQL_ERRNO
@@ -19,7 +21,7 @@
 -	if (row < 0 || row >= (int)mysql_num_rows(mysql_result)) {
 -		php_error_docref(NULL, E_WARNING, "Unable to jump to row " ZEND_LONG_FMT " on MySQL result index %d", row, Z_RES_P(result)->handle);
 +	if (row < 0 || row >= (zend_long)mysql_num_rows(mysql_result)) {
-+		php_error_docref(NULL, E_WARNING, "Unable to jump to row " ZEND_LONG_FMT " on MySQL result index " ZEND_LONG_FMT, row, Z_RES_P(result)->handle);
++		php_error_docref(NULL, E_WARNING, "Unable to jump to row " ZEND_LONG_FMT " on MySQL result index " ZEND_M_FMT, row, Z_RES_P(result)->handle);
  		RETURN_FALSE;
  	}
  	mysql_data_seek(mysql_result, row);
@@ -28,7 +30,7 @@
  					}
  					if (!tmp_field) { /* no match found */
 -						php_error_docref(NULL, E_WARNING, "%s%s%s not found in MySQL result index %d",
-+						php_error_docref(NULL, E_WARNING, "%s%s%s not found in MySQL result index " ZEND_LONG_FMT,
++						php_error_docref(NULL, E_WARNING, "%s%s%s not found in MySQL result index " ZEND_M_FMT,
  									(table_name?table_name:""), (table_name?".":""), field_name, Z_RES_P(result)->handle);
  						efree(field_name);
  						if (table_name) {
@@ -66,7 +68,7 @@
 -	if (offset < 0 || offset >= (int)mysql_num_rows(mysql_result)) {
 -		php_error_docref(NULL, E_WARNING, "Offset " ZEND_LONG_FMT " is invalid for MySQL result index %d (or the query data is unbuffered)", offset, Z_RES_P(result)->handle);
 +	if (offset < 0 || offset >= (zend_long)mysql_num_rows(mysql_result)) {
-+		php_error_docref(NULL, E_WARNING, "Offset " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_LONG_FMT " (or the query data is unbuffered)", offset, Z_RES_P(result)->handle);
++		php_error_docref(NULL, E_WARNING, "Offset " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_M_FMT " (or the query data is unbuffered)", offset, Z_RES_P(result)->handle);
  		RETURN_FALSE;
  	}
  	mysql_data_seek(mysql_result, offset);
@@ -77,7 +79,7 @@
 -	if (offset < 0 || offset >= (int)mysql_num_fields(mysql_result)) {
 -		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index %d", offset, Z_RES_P(result)->handle);
 +	if (offset < 0 || offset >= (zend_long)mysql_num_fields(mysql_result)) {
-+		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_LONG_FMT, offset, Z_RES_P(result)->handle);
++		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_M_FMT, offset, Z_RES_P(result)->handle);
  		RETURN_FALSE;
  	}
  	mysql_field_seek(mysql_result, offset);
@@ -86,7 +88,7 @@
  
  	if (field < 0 || field >= (int)mysql_num_fields(mysql_result)) {
 -		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index %d", field, Z_RES_P(result)->handle);
-+		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_LONG_FMT, field, Z_RES_P(result)->handle);
++		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_M_FMT, field, Z_RES_P(result)->handle);
  		RETURN_FALSE;
  	}
  	mysql_field_seek(mysql_result, field);
