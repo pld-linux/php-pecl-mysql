@@ -84,6 +84,8 @@ EOF
 %build
 phpize
 %configure \
+	EGREP="grep -E" \
+	SED="sed" \
 	--with-mysql=shared,%{!?with_mysqlnd:/usr}%{?with_mysqlnd:mysqlnd} \
 	--with-mysql-sock=/var/lib/mysql/mysql.sock \
 	--with-zlib-dir=shared,/usr \
