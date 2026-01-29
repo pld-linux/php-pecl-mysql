@@ -1,11 +1,14 @@
 --- php85-pecl-mysql-1.0.0-ca514c4/php_mysql.c.org	2026-01-29 21:02:32.300054906 +0100
 +++ php85-pecl-mysql-1.0.0-ca514c4/php_mysql.c	2026-01-29 21:02:58.480196364 +0100
-@@ -80,7 +80,7 @@ static int le_result, le_link, le_plink;
+@@ -80,7 +80,11 @@ static int le_result, le_link, le_plink;
  #define SAFE_STRING(s) ((s)?(s):"")
  
  #if MYSQL_VERSION_ID > 32199 || defined(MYSQL_USE_MYSQLND)
--# define mysql_row_length_type zend_ulong
++#if defined(__x86_64__) && defined(__ILP32__)
 +# define mysql_row_length_type size_t
++# else
+ # define mysql_row_length_type zend_ulong
++#endif
  # define HAVE_MYSQL_ERRNO
  #else
  # define mysql_row_length_type unsigned int
