@@ -1,0 +1,89 @@
+--- php85-pecl-mysql-1.0.0-ca514c4/php_mysql.c.org	2026-01-29 21:02:32.300054906 +0100
++++ php85-pecl-mysql-1.0.0-ca514c4/php_mysql.c	2026-01-29 21:02:58.480196364 +0100
+@@ -80,7 +80,7 @@ static int le_result, le_link, le_plink;
+ #define SAFE_STRING(s) ((s)?(s):"")
+ 
+ #if MYSQL_VERSION_ID > 32199 || defined(MYSQL_USE_MYSQLND)
+-# define mysql_row_length_type zend_ulong
++# define mysql_row_length_type size_t
+ # define HAVE_MYSQL_ERRNO
+ #else
+ # define mysql_row_length_type unsigned int
+@@ -2029,8 +2029,8 @@ Q: String or long first?
+ 		RETURN_FALSE;
+ 	}
+ 
+-	if (row < 0 || row >= (int)mysql_num_rows(mysql_result)) {
+-		php_error_docref(NULL, E_WARNING, "Unable to jump to row " ZEND_LONG_FMT " on MySQL result index %d", row, Z_RES_P(result)->handle);
++	if (row < 0 || row >= (zend_long)mysql_num_rows(mysql_result)) {
++		php_error_docref(NULL, E_WARNING, "Unable to jump to row " ZEND_LONG_FMT " on MySQL result index " ZEND_LONG_FMT, row, Z_RES_P(result)->handle);
+ 		RETURN_FALSE;
+ 	}
+ 	mysql_data_seek(mysql_result, row);
+@@ -2060,7 +2060,7 @@ Q: String or long first?
+ 						i++;
+ 					}
+ 					if (!tmp_field) { /* no match found */
+-						php_error_docref(NULL, E_WARNING, "%s%s%s not found in MySQL result index %d",
++						php_error_docref(NULL, E_WARNING, "%s%s%s not found in MySQL result index " ZEND_LONG_FMT,
+ 									(table_name?table_name:""), (table_name?".":""), field_name, Z_RES_P(result)->handle);
+ 						efree(field_name);
+ 						if (table_name) {
+@@ -2309,7 +2309,7 @@ static void php_mysql_fetch_hash(INTERNA
+ 					 * single value is an array. Also we'd have to make that one
+ 					 * argument passed by reference.
+ 					 */
+-					zend_throw_exception(zend_exception_get_default(), "Parameter ctor_params must be an array", 0);
++					zend_throw_exception(zend_ce_exception, "Parameter ctor_params must be an array", 0);
+ 					return;
+ 				}
+ 			}
+@@ -2327,7 +2327,7 @@ static void php_mysql_fetch_hash(INTERNA
+ 			fcc.object = Z_OBJ_P(return_value);
+ 
+ 			if (zend_call_function(&fci, &fcc) == FAILURE) {
+-				zend_throw_exception_ex(zend_exception_get_default(), 0, "Could not execute %s::%s()", ZSTR_VAL(ce->name), ZSTR_VAL(ce->constructor->common.function_name));
++				zend_throw_exception_ex(zend_ce_exception, 0, "Could not execute %s::%s()", ZSTR_VAL(ce->name), ZSTR_VAL(ce->constructor->common.function_name));
+ 			} else {
+ 				if (!Z_ISUNDEF(retval)) {
+ 					zval_ptr_dtor(&retval);
+@@ -2337,7 +2337,7 @@ static void php_mysql_fetch_hash(INTERNA
+ 				efree(fci.params);
+ 			}
+ 		} else if (ctor_params) {
+-			zend_throw_exception_ex(zend_exception_get_default(), 0, "Class %s does not have a constructor hence you cannot use ctor_params", ZSTR_VAL(ce->name));
++			zend_throw_exception_ex(zend_ce_exception, 0, "Class %s does not have a constructor hence you cannot use ctor_params", ZSTR_VAL(ce->name));
+ 		}
+ 	}
+ 
+@@ -2396,8 +2396,8 @@ PHP_FUNCTION(mysql_data_seek)
+ 		RETURN_FALSE;
+ 	}
+ 
+-	if (offset < 0 || offset >= (int)mysql_num_rows(mysql_result)) {
+-		php_error_docref(NULL, E_WARNING, "Offset " ZEND_LONG_FMT " is invalid for MySQL result index %d (or the query data is unbuffered)", offset, Z_RES_P(result)->handle);
++	if (offset < 0 || offset >= (zend_long)mysql_num_rows(mysql_result)) {
++		php_error_docref(NULL, E_WARNING, "Offset " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_LONG_FMT " (or the query data is unbuffered)", offset, Z_RES_P(result)->handle);
+ 		RETURN_FALSE;
+ 	}
+ 	mysql_data_seek(mysql_result, offset);
+@@ -2580,8 +2580,8 @@ PHP_FUNCTION(mysql_field_seek)
+ 		RETURN_FALSE;
+ 	}
+ 
+-	if (offset < 0 || offset >= (int)mysql_num_fields(mysql_result)) {
+-		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index %d", offset, Z_RES_P(result)->handle);
++	if (offset < 0 || offset >= (zend_long)mysql_num_fields(mysql_result)) {
++		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_LONG_FMT, offset, Z_RES_P(result)->handle);
+ 		RETURN_FALSE;
+ 	}
+ 	mysql_field_seek(mysql_result, offset);
+@@ -2615,7 +2615,7 @@ static void php_mysql_field_info(INTERNA
+ 	}
+ 
+ 	if (field < 0 || field >= (int)mysql_num_fields(mysql_result)) {
+-		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index %d", field, Z_RES_P(result)->handle);
++		php_error_docref(NULL, E_WARNING, "Field " ZEND_LONG_FMT " is invalid for MySQL result index " ZEND_LONG_FMT, field, Z_RES_P(result)->handle);
+ 		RETURN_FALSE;
+ 	}
+ 	mysql_field_seek(mysql_result, field);
