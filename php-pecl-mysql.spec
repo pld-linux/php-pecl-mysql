@@ -3,7 +3,7 @@
 %bcond_without	tests		# build without tests
 %bcond_without	mysqlnd		# without mysqlnd support in mysql related extensions
 
-%define		rel		11
+%define		rel		12
 %define		commit	ca514c4
 %define		php_name	php%{?php_suffix}
 %define		modname	mysql
@@ -20,8 +20,9 @@ Source0:	https://github.com/php/pecl-database-mysql/archive/%{commit}/php-pecl-%
 # Source0-md5:	352114d54e0889d999577f9db8c06a74
 Patch0:		revert-deprecate-ext-mysql.patch
 Patch1:		build.patch
+Patch2:		php86.patch
+Patch3:		fetch-object-ctor-args-leak.patch
 URL:		https://secure.php.net/manual/en/book.mysql.php
-%{?with_tests:BuildRequires:    %{php_name}-cli}
 BuildRequires:	%{php_name}-devel >= 4:7.0.0
 %{?with_mysqlnd:BuildRequires:	%{php_name}-mysqlnd}
 BuildRequires:	rpmbuild(macros) >= 1.666
@@ -51,6 +52,8 @@ historical reasons only.
 mv pecl-database-%{modname}-*/* .
 %patch -P0 -p1
 %patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
 
 cat <<'EOF' > run-tests.sh
 #!/bin/sh
