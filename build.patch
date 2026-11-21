@@ -1,16 +1,22 @@
 --- php73-pecl-mysql-1.0.0-ca514c4/php_mysql.c.org	2026-01-29 21:34:03.582390606 +0100
 +++ php73-pecl-mysql-1.0.0-ca514c4/php_mysql.c	2026-01-29 21:34:16.265390923 +0100
-@@ -80,7 +80,13 @@ static int le_result, le_link, le_plink;
+@@ -80,7 +80,19 @@ static int le_result, le_link, le_plink;
  #define SAFE_STRING(s) ((s)?(s):"")
  
- #if MYSQL_VERSION_ID > 32199 || defined(MYSQL_USE_MYSQLND)
-+#if ((defined(__x86_64__) && defined(__ILP32__)) || (PHP_VERSION_ID <= 70000))
-+# define ZEND_M_FMT "%d"
-+# define mysql_row_length_type size_t
-+# else
++/* zend_resource.handle is int before PHP 8.1, zend_long since */
++#if PHP_VERSION_ID >= 80100
 +# define ZEND_M_FMT ZEND_LONG_FMT
- # define mysql_row_length_type zend_ulong
++#else
++# define ZEND_M_FMT "%d"
 +#endif
++
+ #if MYSQL_VERSION_ID > 32199 || defined(MYSQL_USE_MYSQLND)
++/* mysqlnd's fetch_lengths() returns zend_ulong * in PHP 7.0, const size_t * since 7.1 */
++# if defined(MYSQL_USE_MYSQLND) && PHP_VERSION_ID >= 70100
++#  define mysql_row_length_type size_t
++# else
+ # define mysql_row_length_type zend_ulong
++# endif
  # define HAVE_MYSQL_ERRNO
  #else
  # define mysql_row_length_type unsigned int
